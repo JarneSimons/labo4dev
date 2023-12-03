@@ -1,10 +1,29 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const routerMessages = require('./routers/api/v1/messages')
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/messages', 
+{
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    dbname: "messages"
+}
+).then(() => { 
+    console.log("MongoDB connected...")
+}).catch((err) => {
+    console.log('MongoDB connection error:', err);
+
+});
+
+
+app.use(express.json());
+const cors = require('cors');
+app.use(cors());
+app.use("/api/v1/messages", routerMessages)
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
