@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const messagesSchema = new Schema({
-    "name": String,
-    "user": String,
-    "text": String,
+
+    id: {
+        type: Number,
+        required: false,
+    },
+    user: {
+        type: String,
+        required: false,
+    
+    },
+    text: String,
 });
 
 const messages = mongoose.model('Messages', messagesSchema);

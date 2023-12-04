@@ -3,20 +3,41 @@ const Messages = require('../../../models/Messages');
 
 // get messages from database
 const getMessages = async (req, res) => {
-    try {
-        const messages = await Messages.find();
-        res.json({
-            status: 'success',
-            data: {
-                messages: messages
-            }
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            status: 'error',
-            message: 'Failed to retrieve messages'
-        });
+    let user = req.query.user;
+
+    // If the user query parameter is present, filter the messages by user else get all
+    if (user) {
+        try {
+            const messages = await Messages.find({ user: user });
+            res.json({
+                status: 'success',
+                data: {
+                    messages: messages
+                }
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                status: 'error',
+                message: 'Failed to retrieve messages'
+            });
+        }
+    } else {
+        try {
+            const messages = await Messages.find();
+            res.json({
+                status: 'success',
+                data: {
+                    messages: messages
+                }
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                status: 'error',
+                message: 'Failed to retrieve messages'
+            });
+        }
     }
 };
 
@@ -138,29 +159,8 @@ const deleteMessagesId = async (req, res) => {
     }
 };
 
-
-// get messages from database by user
-const getMessagesByUser = async (req, res) => {
-    try {
-        const messages = await Messages.find({ user: req.params.user });
-        res.json({
-            status: 'success',
-            data: {
-                messages: messages
-            }
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            status: 'error',
-            message: 'Failed to retrieve messages'
-        });
-    }
-};
-
 module.exports.getMessages = getMessages;
 module.exports.getMessageId = getMessageId;
 module.exports.postMessages = postMessages;
 module.exports.putMessagesId = putMessagesId;
 module.exports.deleteMessagesId = deleteMessagesId;
-module.exports.getMessagesByUser = getMessagesByUser;

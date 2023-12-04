@@ -17,8 +17,4 @@ router.put('/:id', controllerMessages.putMessagesId)
 // delete api/v1/messages/:id from mongodb
 router.delete('/:id', controllerMessages.deleteMessagesId)
 
-// get api/v1/messages/:user from mongodb
-router.get('/:user', controllerMessages.getMessagesByUser)
-
-
 module.exports = router;
