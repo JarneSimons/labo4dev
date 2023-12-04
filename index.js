@@ -2,21 +2,19 @@ const express = require('express')
 const app = express()
 const port = 3000
 const routerMessages = require('./routers/api/v1/messages')
+require('dotenv').config()
+
+
 
 
 const mongoose = require('mongoose');
-mongoose.connect('process.env.MONGODB', 
-{
-    useNewUrlParser: true, 
-    useUnifiedTopology: true,
-    dbname: "messages"
-}
-).then(() => { 
-    console.log("MongoDB connected...")
-}).catch((err) => {
-    console.log('MongoDB connection error:', err);
-
+mongoose.connect(process.env.MONGODB).then(() => {
+    console.log("Connected to Database");
+    }
+).catch((err) => {
+    console.log("Not Connected to Database ERROR! ", err);
 });
+
 
 
 app.use(express.json());
