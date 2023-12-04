@@ -67,22 +67,12 @@ const getMessageId = async (req, res) => {
 
 // post messages to database
 const postMessages = async (req, res) => {
-    try {
-        // Check if the required fields are present in the request body
-        const requiredFields = ['user', 'text'];
-        const missingFields = requiredFields.filter(field => !req.body[field]);
-
-        if (missingFields.length > 0) {
-            return res.status(400).json({
-                status: 'error',
-                message: `Missing required fields: ${missingFields.join(', ')}`
-            });
-        }
+    try {    
 
         // Create a new Message instance with data from the request body
         let message = new Messages();
-        message.user = req.body.message.user;  // Change from req.body.message.user to req.body.user
-        message.text = req.body.message.text;  // Change from req.body.message.text to req.body.text
+        message.user = req.body.message.user;
+        message.text = req.body.message.text;
 
         // Save the message to the database
         const savedMessage = await message.save();
@@ -94,7 +84,8 @@ const postMessages = async (req, res) => {
             }
         });
     } catch (err) {
-        console.log(err);
+        console.error(err); // Log the error to the console
+        console.log(req.body);
         res.status(500).json({
             status: 'error',
             message: 'Failed to save message',
