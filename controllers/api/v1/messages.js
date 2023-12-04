@@ -81,8 +81,8 @@ const postMessages = async (req, res) => {
 
         // Create a new Message instance with data from the request body
         let message = new Messages();
-        message.user = req.body.user;
-        message.text = req.body.text;
+        message.user = req.body.message.user;
+        message.text = req.body.message.text;
 
         // Save the message to the database
         const savedMessage = await message.save();
